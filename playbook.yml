@@ -1,0 +1,33 @@
+---
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Include Var files
+      include_vars: "{{ item }}"
+      with_fileglob:
+        - vars.yml
+        - local.yml
+
+    - name: Configure EPEL
+      yum:
+        name: epel-release
+        state: present
+      become: yes
+
+    - name: Install Development Tools
+      yum:
+        name: "{{ dev_tools }}"
+        state: present
+      become: yes
+
+    - name: Install FPM Ruby gem
+      gem:
+        name: fpm
+        state: present
+
+    - name: Build Python Modules as RPM's
+      command: >-
+        bin/fpm -s python -t rpm -p /vagrant/out -f
+        --vendor {{ vendor }} {{ item }}
+      loop: "{{ python_mods }}"

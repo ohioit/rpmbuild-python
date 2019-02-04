@@ -1,0 +1,13 @@
+---
+vendor: OhioIT
+
+dev_tools:
+  - "@Development Tools"
+  - python-devel
+  - python2-pip
+  - ruby-devel
+
+python_mods:
+  - ibm-db
+  - locustio
+  - jxmlease
