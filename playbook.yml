@@ -9,6 +9,11 @@
         - vars.yml
         - local.yml
 
+    - name: Create an rpm output dir
+      file:
+        path: rpm
+        state: directory
+
     - name: Configure EPEL
       yum:
         name: epel-release
@@ -28,6 +33,12 @@
 
     - name: Build Python Modules as RPM's
       command: >-
-        bin/fpm -s python -t rpm -p /vagrant/out -f
-        --vendor {{ vendor }} {{ item }}
+        bin/fpm -s python -t rpm -p rpm -f
+        --rpm-dist el7 --vendor {{ vendor }} {{ item }}
       loop: "{{ python_mods }}"
+
+    - name: Download new RPM's
+      synchronize:
+        mode: pull
+        src: rpm/
+        dest: out/
