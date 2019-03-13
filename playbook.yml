@@ -47,15 +47,9 @@
         dest: duo_client_python
         version: "{{ duo_client_version }}"
 
-    - name: set_fact when alice in key
-      set_fact:
-        six_version: "{{ item.version }}"
-      loop: "{{ python_mods }}"
-      when: item.name == 'six'
-
-    - name: Install Python six mod from local RPM
+    - name: Install Python six module
       yum:
-        name: "rpm/python-six-{{ six_version }}-1.el{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+        name: python-six
         state: present
       become: yes
 
