@@ -37,6 +37,24 @@
         --rpm-dist el7 --vendor {{ vendor }} {{ item }}
       loop: "{{ python_mods }}"
 
+    # For some reason the duo_client module will not build directly
+    # from the the PyPi server, but it will build locally
+    - name: Clone Python Duo Client from GitHub
+      git:
+        repo: https://github.com/duosecurity/duo_client_python.git
+        dest: duo_client_python
+        version: '4.2.0'
+
+    - name: Install Python six module for Duo Client
+      pip:
+        name: six
+        state: present
+
+    - name: Build Python Duo Client as RPM
+      command: >-
+        bin/fpm -s python -t rpm -p rpm -f
+        --rpm-dist el7 --vendor {{ vendor }} duo_client_python/setup.py
+
     - name: Download new RPM's
       synchronize:
         mode: pull

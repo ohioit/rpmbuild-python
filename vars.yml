@@ -11,3 +11,4 @@ python_mods:
   - ibm-db
   - locustio
   - jxmlease
+  - six
