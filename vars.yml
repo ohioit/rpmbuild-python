@@ -11,6 +11,7 @@ python_mods:
   - { name: ibm-db, version: '3.0.1' }
   - { name: locustio, version: '0.9.0' }
   - { name: jxmlease, version: '1.0.1' }
+  - { name: cx-Oracle, version: '7.1.2' }
 
 # Special Python Module
 duo_client_version: '4.2.0'
